@@ -1,0 +1,5 @@
+{
+    "client_id": "id here",
+    "client_secret": "secret here",
+    "redirect_uri": "redirect uri from your project account page here"
+}
