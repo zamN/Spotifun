@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zamN/zamn.net/_third_party/github.com/go-martini/martini"
-	"github.com/zamN/zamn.net/_third_party/github.com/martini-contrib/render"
+	"github.com/zamN/spotifun/_third_party/github.com/zamN/zamn.net/_third_party/github.com/go-martini/martini"
+	"github.com/zamN/spotifun/_third_party/github.com/zamN/zamn.net/_third_party/github.com/martini-contrib/render"
 )
 
 type SpotifyMeta struct {
