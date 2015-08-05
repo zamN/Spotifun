@@ -6,6 +6,7 @@ import (
     "time"
     "io/ioutil"
 	"encoding/json"
+    "encoding/base64"
     "net/http"
     "net/url"
 
@@ -52,13 +53,11 @@ func (sa *SpotifyAuth) spotifyAccess(code string, grant_type string) error {
     if err != nil {
         fmt.Println("error:", err)
     }
-    fmt.Println(sMeta.RedirectUri)
 
     vals := url.Values{}
     vals.Add("grant_type", grant_type)
     vals.Add("code", code)
-    // TODO: Load these from metadata file (Probably json)
-    vals.Add("redirect_uri", "http://zamn.net:3000/spotify")
+    vals.Add("redirect_uri", sMeta.RedirectUri)
 
     req, err := http.NewRequest("POST", "https://accounts.spotify.com/api/token", strings.NewReader(vals.Encode()))
 
@@ -66,7 +65,9 @@ func (sa *SpotifyAuth) spotifyAccess(code string, grant_type string) error {
         fmt.Printf("Error contacting Spotify API: %s\n", err)
     }
 
-    req.Header.Add("Authorization", "Basic MzZhOGQ0MGEyZjUyNDk5MjliZTc5NDE0ZTdjMjVkMWQ6Y2RlNjFjYzczYjQyNGNlMjlhNmY1ZjQ2MTQ2YTkzYjk=")
+    b64idSec := base64.StdEncoding.EncodeToString([]byte(sMeta.ClientId + ":" + sMeta.ClientSecret))
+
+    req.Header.Add("Authorization", "Basic " + b64idSec)
     req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
     resp, err := client.Do(req)
